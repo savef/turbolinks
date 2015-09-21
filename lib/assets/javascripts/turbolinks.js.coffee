@@ -224,6 +224,9 @@ processResponse = ->
   clientOrServerError = ->
     400 <= xhr.status < 600
 
+  sansTurboHeader = ->
+    xhr.getResponseHeader('X-Sans-Turbolinks') is '1'
+
   validContent = ->
     (contentType = xhr.getResponseHeader('Content-Type'))? and
       contentType.match /^(?:text\/html|application\/xhtml\+xml|application\/xml)(?:;|$)/
@@ -241,7 +244,7 @@ processResponse = ->
     [a, b] = [b, a] if a.length > b.length
     value for value in a when value in b
 
-  if not clientOrServerError() and validContent()
+  if not clientOrServerError() and not sansTurboHeader() and validContent()
     doc = createDocument xhr.responseText
     if doc and !assetsChanged doc
       return doc

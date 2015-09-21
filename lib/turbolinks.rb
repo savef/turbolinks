@@ -13,6 +13,10 @@ module Turbolinks
           include XHRHeaders, Cookies, XDomainBlocker, Redirection
           before_filter :set_xhr_redirected_to, :set_request_method_cookie
           after_filter :abort_xdomain_redirect
+
+          def sans_turbolinks!
+            headers["X-Sans-Turbolinks"] = '1'
+          end
         end
 
         ActionDispatch::Request.class_eval do

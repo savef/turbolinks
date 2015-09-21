@@ -51,6 +51,11 @@ class RenderController < TestController
   def render_with_flush_false
     render action: :action, flush: false
   end
+
+  def render_sans_turbolinks
+    sans_turbolinks!
+    render text: 'content'
+  end
 end
 
 class RenderTest < ActionController::TestCase
@@ -190,6 +195,11 @@ class RenderTest < ActionController::TestCase
     @controller.response = @response
     result = @controller.render(text: 'test', turbolinks: true)
     assert_equal ["Turbolinks.replace('test');"], result
+  end
+
+  def test_render_sans_turbolinks
+    get :render_sans_turbolinks
+    assert response.headers["X-Sans-Turbolinks"].eql?("1")
   end
 
   private

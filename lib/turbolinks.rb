@@ -19,6 +19,10 @@ module Turbolinks
         base.after_filter :abort_xdomain_redirect
       end
     end
+
+    def sans_turbolinks!
+      headers["X-Sans-Turbolinks"] = '1'
+    end
   end
 
   class Engine < ::Rails::Engine

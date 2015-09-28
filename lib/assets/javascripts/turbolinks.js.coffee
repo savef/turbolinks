@@ -57,6 +57,7 @@ fetchReplacement = (url, onLoadFunction, showProgressBar = true) ->
   xhr.open 'GET', url.withoutHashForIE10compatibility(), true
   xhr.setRequestHeader 'Accept', 'text/html, application/xhtml+xml, application/xml'
   xhr.setRequestHeader 'X-XHR-Referer', referer
+  xhr.setRequestHeader 'X-Turbolinks', '1'
 
   xhr.onload = ->
     triggerEvent EVENTS.RECEIVE, url: url.absolute

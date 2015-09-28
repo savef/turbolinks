@@ -15,7 +15,17 @@ module Turbolinks
           after_filter :abort_xdomain_redirect
 
           def sans_turbolinks!
-            headers["X-Sans-Turbolinks"] = '1'
+            headers['X-Sans-Turbolinks'] = '1'
+          end
+
+          def render_sans_turbolinks(*args)
+            sans_turbolinks!
+
+            if request.headers['X-Turbolinks'].eql?("1")
+              render nothing: true
+            elsif args.present?
+              render *args
+            end
           end
         end
 

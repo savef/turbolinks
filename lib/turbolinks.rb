@@ -18,10 +18,14 @@ module Turbolinks
             headers['X-Sans-Turbolinks'] = '1'
           end
 
+          def turbolinks_request?
+            request.headers['X-Turbolinks'].eql?("1")
+          end
+
           def render_sans_turbolinks(*args)
             sans_turbolinks!
 
-            if request.headers['X-Turbolinks'].eql?("1")
+            if turbolinks_request?
               render nothing: true
             elsif args.present?
               render *args
